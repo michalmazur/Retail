@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html ng-app="retailApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Retail App</title>
+
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
+    <script src="lib/angular-resource/angular-resource.js"></script>
+    <script src="lib/angular-cookies/angular-cookies.js"></script>
+
+    <script src="js/mydirectives.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/services/backend.js"></script>
+    <script src="js/services/auth.js"></script>
+    <script src="js/services/keywordTracker.js"></script>
+    <script src="js/services/storeTracker.js"></script>
+    <script src="js/controllers/menuController.js"></script>
+    <script src="js/controllers/storeController.js"></script>
+    <script src="js/controllers/authController.js"></script>
+    <script src="js/controllers/productListController.js"></script>
+    <script src="js/controllers/newProductController.js"></script>
+    <script src="js/controllers/productController.js"></script>
+
+
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="lib/bootswatch/yeti/bootstrap.min.css" />
+    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+       
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css" />
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse" ng-controller="MenuController as vm">
+        <div class="container-fluid">
+            <a ng-show="vm.user.id" class="navbar-brand" href="index.html#/products">Products</a>
+            <a ng-show="vm.user.id" class="navbar-brand" href="index.html#/stores">Stores</a>
+            <a ng-hide="vm.user.id" class="navbar-brand" href="index.html#/auth">Log in</a>
+            <a ng-show="vm.user.id" ng-click="vm.logout()" class="navbar-brand" href="#">Log out</a>
+        </div>
+    </nav>
+    <div id="main" class="container-fluid">
+        <div ng-view></div>
+    </div>
+</body>
+</html>

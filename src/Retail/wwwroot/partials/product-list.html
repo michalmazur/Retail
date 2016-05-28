@@ -1,0 +1,33 @@
+<div class="row margin-bottom">
+    <div class="col-sm-4">
+        <a class="btn btn-default" href="index.html#/products/add">Add Product</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <form class="form-inline">
+            <div class="form-group">
+                <input class="form-control" ng-model="vm.keyword" ng-change="vm.setKeyword(vm.keyword)" placeholder="search" />
+                <input class="form-control hidden-xs" ng-model="vm.maxItems" placeholder="max" style="width: 3em"/>
+                <button class="btn btn-default" ng-click="vm.refresh()">Refresh</button>
+            </div>
+        </form>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Product</th>
+            </tr>
+            <tr ng-repeat="product in vm.products | filter:vm.keyword | limitTo: vm.maxItems">
+                <td>
+                    <i class="fa fa-barcode" aria-hidden="true" ng-show="product.barcode"></i>
+                    <i class="fa fa-question-circle-o" aria-hidden="true" ng-hide="product.barcode"></i>
+                    <a href="#/products/{{product.id}}">{{product.label}}</a>
+                    (<span class="amount">{{product.amount}} {{ vm.units[product.unitId].label }}</span>)
+                    <span class="best-price">{{product.best_price | currency}}</span>
+                    <span class="best-price">{{product.best_unit_price}}</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

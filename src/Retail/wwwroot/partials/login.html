@@ -1,0 +1,32 @@
+<wait-cursor display-when="vm.isBusy"></wait-cursor>
+
+<div class="row" ng-show="vm.profile.username">
+    <div class="col-sm-4">
+        <h4>Hello, {{ vm.profile.username }}</h4>
+    </div>
+</div>
+
+<div class="row" ng-hide="vm.profile.username">
+    <div class="col-sm-4">
+        <form name="form" novalidate="novalidate" ng-submit="vm.login(vm.username, vm.password)">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input class="form-control" type="text" id="username" name="username" ng-model="vm.username" required/>
+                <div ng-show="form.username.$touched && form.username.$error.required" class="text-danger">This field is
+                    required
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input class="form-control" type="password" id="password" name="password" ng-model="vm.password" required/>
+                <div ng-show="form.password.$touched && form.password.$error.required" class="text-danger">This field is
+                    required
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid">Log in</button>
+            </div>
+            <div ng-show="vm.message" class="text-danger">{{ vm.message }}</div>
+        </form>
+    </div>
+</div>

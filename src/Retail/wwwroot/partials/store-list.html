@@ -1,0 +1,20 @@
+<wait-cursor display-when="vm.isBusy"></wait-cursor>
+
+<div class="row margin-bottom">
+    <div class="col-sm-4">
+        <a class="btn btn-default" href="#/stores/add">Add Store</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <table class="table table-striped">
+            <tr>
+                <th>Store</th>
+            </tr>
+            <tr ng-repeat="store in vm.stores | orderBy:'label'">
+                <td>{{ store.label }}</td>
+            </tr>
+        </table>
+    </div>
+</div>

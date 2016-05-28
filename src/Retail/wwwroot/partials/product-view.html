@@ -1,0 +1,135 @@
+<wait-cursor display-when="vm.isBusy"></wait-cursor>
+
+<div class="row">
+    <div class="col-sm-4">
+
+        <div ng-hide="vm.editMode">
+            <div class="row">
+                <div class="col-xs-9">
+                    <h4>{{ vm.product.label }}</h4>
+                </div>
+                <div class="col-xs-3">
+                    <button class="btn btn-default" ng-click="vm.toggleEditMode()"><i class="fa fa-pencil"></i> Edit
+                    </button>
+                </div>
+            </div>
+
+            <p>{{ vm.product.amount }} {{ vm.units[vm.product.unitId].label }}</p>
+            <p><i class="fa fa-barcode" aria-hidden="true" ng-show="vm.product.barcode"></i> {{ vm.product.barcode }}
+            </p>
+            <em ng-show="vm.product.comments">{{ vm.product.comments }}</em>
+        </div>
+
+        <div ng-show="vm.editMode">
+            <form novalidate="novalidate" name="productForm" ng-submit="vm.update()">
+                <div class="form-group">
+                    <label for="label">Label</label>
+                    <input ng-model="vm.product.label" id="label" name="label" type="text" class="form-control" value="{{ vm.product.label }}" required />
+                    <div ng-show="productForm.label.$touched && productForm.label.$error.required" class="text-danger">This field is required
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input class="form-control" type="number" id="amount" name="amount" ng-model="vm.product.amount" min="0.01" required />
+                    <div ng-show="productForm.amount.$touched && productForm.amount.$error.min" class="text-danger">Minimum value is 0.01
+                    </div>
+                    <div ng-show="productForm.amount.$touched && productForm.amount.$error.required" class="text-danger">This field is required
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="unit">Unit</label>
+                    <select class="form-control"
+                            id="unit"
+                            name="unit"
+                            ng-change="vm.onUnitSelected()"
+                            ng-model="vm.selectedUnit"
+                            ng-options="unit.label for unit in vm.units">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="barcode">Barcode</label>
+                    <input class="form-control" type="number" id="barcode" name="barcode" ng-model="vm.product.barcode" value="{{ vm.product.barcode }}"
+                           placeholder="Enter barcode..."/>
+                </div>
+                <div class="form-group">
+                    <label for="comments">Comments</label>
+                    <textarea class="form-control" id="comments" name="comments" ng-model="vm.product.comments" placeholder="Enter comments...">{{ vm.product.comments }}</textarea>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-disabled="productForm.$invalid">Update Product</button>
+                    <button class="btn btn-danger" ng-click="vm.deleteProduct()">Delete</button>
+                </div>
+            </form>
+        </div>
+
+        <div ng-hide="vm.editMode">
+            <h4>Prices</h4>
+            <table class="table table-striped">
+                <tr ng-repeat="price in vm.prices | orderBy:'price'">
+                    <td>
+                        ${{ price.price | number:2 }}
+                        <span ng-show="price.sale" style="color: red">Sale</span>
+                        <span ng-show="price.bogo" style="color: red">BOGO</span><br/>
+
+                        <span class="text-muted">[${{ price.price / vm.product.amount | number: 2 }}/{{ vm.units[vm.product.unitId].label }}] </span>
+                <span class="text-muted" ng-show="vm.product.unitId == '2'">
+                    <br/>
+                    [${{ price.price / vm.product.amount * 16 | number: 2 }}/lb]
+                </span>
+
+                <span class="text-muted" ng-show="vm.product.unitId == '6'">
+                    <br/>[${{ price.price / vm.product.amount / 16 | number: 2 }}/oz]
+                </span>
+
+                    </td>
+                    <td>
+                        {{ vm.stores[price.storeId].label }}
+                    </td>
+                    <td>
+                        {{ price.updatedDate | date:"yyyy-MM-dd" }}
+                    </td>
+                    <td>
+                        <button class="text-danger" ng-click="vm.delete(price.id)"><i class="fa fa-trash-o"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div ng-hide="vm.editMode">
+            <h4>Add Price</h4>
+            <form novalidate="novalidate" name="priceForm" ng-submit="vm.addPrice()">
+                <div class="form-group">
+                    <div class="checkbox-inline">
+                        <label>
+                            <input ng-model="vm.newPrice.sale" type="checkbox" value="">
+                            Sale
+                        </label>
+                    </div>
+                    <div class="checkbox-inline">
+                        <label>
+                            <input ng-model="vm.newPrice.bogo" type="checkbox" value="">
+                            BOGO
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="price" name="price" ng-model="vm.newPrice.price" type="number" placeholder="Enter price" min="0.01" required max="100" />
+                    <div ng-show="priceForm.price.$touched && priceForm.price.$error.min" class="text-danger">Minimum value is 0.01
+                    </div>
+                    <div ng-show="priceForm.price.$touched && priceForm.price.$error.max" class="text-danger">Maximum value is 100.00
+                    </div>
+                </div>
+                <div class="form-group">
+                    <select required class="form-control" ng-model="vm.store"
+                            ng-options="store.label for store in vm.stores track by store.id">
+                        <option value="">Select store...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-disabled="priceForm.$invalid">Save Price</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

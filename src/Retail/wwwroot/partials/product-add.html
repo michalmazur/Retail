@@ -1,0 +1,38 @@
+<wait-cursor display-when="vm.isBusy"></wait-cursor>
+
+<div class="row">
+    <div class="col-sm-4">
+        <h4>Add Product</h4>
+        <form name="form" novalidate="novalidate" ng-submit="vm.addProduct()">
+            <div class="form-group">
+                <label for="label">Label</label>
+                <input class="form-control" type="text" id="label" name="label" placeholder="Enter product label" ng-model="vm.label" required />
+                <div ng-show="form.label.$touched && form.label.$error.required" class="text-danger">This field is
+                    required
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="barcode">Barcode</label>
+                <input class="form-control" type="number" id="barcode" name="barcode" placeholder="Enter product barcode" ng-model="vm.barcode" min="0" />
+                <div ng-show="form.barcode.$touched && form.barcode.$error.min" class="text-danger">Value cannot be negative
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input class="form-control" type="number" id="amount" name="amount" ng-model="vm.amount" min="0.01" required />
+                <div ng-show="form.amount.$touched && form.amount.$error.min" class="text-danger">Minimum value is 0.01
+                </div>
+                <div ng-show="form.amount.$touched && form.amount.$error.required" class="text-danger">This field is required
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="unit">Unit</label>
+                <select class="form-control" id="unit" name="unit" ng-model="vm.unit" ng-options="unit.label for unit in vm.units">
+                </select>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" value="Add Product" ng-disabled="form.$invalid"/>
+            </div>
+        </form>
+    </div>
+</div>

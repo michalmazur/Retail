@@ -1,0 +1,16 @@
+/* 
+   this hack allows me to have inline form elements on phones
+   see the following link for an alternative
+   http://stackoverflow.com/questions/21651215/how-make-bootstrap-class-form-inline-work-on-resolutions-768px
+*/
+@media (max-width: 767px) {
+  .form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+  }
+}
+
+.margin-bottom {
+  margin-bottom: 1em;
+}
